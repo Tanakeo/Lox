@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Lox_By_me.iml" filepath="$PROJECT_DIR$/.idea/Lox_By_me.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Lox.iml" filepath="$PROJECT_DIR$/.idea/Lox.iml" />
     </modules>
   </component>
 </project>

@@ -29,6 +29,7 @@ public class RpnPrinter implements Expr.Visitor<String>{
         return expr.right.accept(this) + " " + expr.operator.lexeme;
     }
 
+    /*
     @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
         // В RPN тернарный оператор записываем как: условие, then, else, ?:
@@ -37,6 +38,8 @@ public class RpnPrinter implements Expr.Visitor<String>{
                 expr.elseBranch.accept(this) + " " +
                 "?:";
     }
+
+     */
 
     public static void main(String argv[]){
         Expr expression = new Expr.Binary(

@@ -23,9 +23,10 @@ public class Parser {
     }
 
     private Expr expression(){
-        return comma();
+        return equality();
     }
 
+    /*
     private Expr comma() {
         Expr expr = ternary();  // заменили equality на ternary
 
@@ -50,6 +51,8 @@ public class Parser {
 
         return expr;
     }
+
+     */
 
     private Expr equality(){
         Expr expr = comparison();

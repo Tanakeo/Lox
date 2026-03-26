@@ -36,6 +36,16 @@ public class AstPrinter implements Expr.Visitor<String> {
 
      */
 
+    @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return "environment.get(expr.name)";
+    }
+
+    @Override
+    public String visitAssignExpr(Expr.Assign expr) {
+        return "value";
+    }
+
     private String parenthesize(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
 

@@ -41,6 +41,16 @@ public class RpnPrinter implements Expr.Visitor<String>{
 
      */
 
+    @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return "environment.get(expr.name)";
+    }
+
+    @Override
+    public String visitAssignExpr(Expr.Assign expr) {
+        return "value";
+    }
+
     public static void main(String argv[]){
         Expr expression = new Expr.Binary(
                 new Expr.Binary(

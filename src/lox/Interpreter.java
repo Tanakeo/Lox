@@ -5,6 +5,8 @@ import java.util.List;
 public class Interpreter implements Expr.Visitor<Object>,
                                     Stmt.Visitor<Void>{
 
+    private static class BreakException extends RuntimeException {}
+
     private Environment environment = new Environment();
 
     void interpret(List<Stmt> statements) {
@@ -25,6 +27,19 @@ public class Interpreter implements Expr.Visitor<Object>,
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr) {
         return evaluate(expr.expression);
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Object left = evaluate(expr.left);
+
+        if (expr.operator.type == TokenType.OR) {
+            if (isTruthy(left)) return left;
+        } else {
+            if (!isTruthy(left)) return left;
+        }
+
+        return evaluate(expr.right);
     }
 
     @Override
@@ -88,8 +103,23 @@ public class Interpreter implements Expr.Visitor<Object>,
     }
 
     @Override
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        throw new BreakException();
+    }
+
+    @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitIfStmt(Stmt.If stmt) {
+        if (isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.thenBranch);
+        } else if (stmt.elseBranch != null) {
+            execute(stmt.elseBranch);
+        }
         return null;
     }
 
@@ -108,6 +138,18 @@ public class Interpreter implements Expr.Visitor<Object>,
         }
 
         environment.define(stmt.name.lexeme, value);
+        return null;
+    }
+
+    @Override
+    public Void visitWhileStmt(Stmt.While stmt) {
+        try {
+            while (isTruthy(evaluate(stmt.condition))) {
+                execute(stmt.body);
+            }
+        } catch (BreakException ex) {
+            // Do nothing.
+        }
         return null;
     }
 

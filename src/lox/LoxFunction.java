@@ -35,6 +35,7 @@ class LoxFunction implements LoxCallable {
                     arguments.get(i));
         }
 
+
         try {
             interpreter.executeBlock(declaration.body, environment);
         } catch (Return returnValue) {
